@@ -1,6 +1,7 @@
 package com.epam.jwd.core_final.context.impl;
 
 import com.epam.jwd.core_final.context.ApplicationContext;
+import com.epam.jwd.core_final.context.Strategy;
 import com.epam.jwd.core_final.domain.BaseEntity;
 import com.epam.jwd.core_final.domain.CrewMember;
 import com.epam.jwd.core_final.domain.Spaceship;
@@ -16,8 +17,20 @@ public class NassaContext implements ApplicationContext {
     private Collection<CrewMember> crewMembers = new ArrayList<>();
     private Collection<Spaceship> spaceships = new ArrayList<>();
 
+    private Strategy strategy;
+    private final static String name = Spaceship.class.getName();
+
     @Override
     public <T extends BaseEntity> Collection<T> retrieveBaseEntityList(Class<T> tClass) {
+         Strategy<T> strategy;
+
+        switch (tClass.getName()) {
+            case "Spaceship":
+                strategy = new SpaceshipStrategy();
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + tClass.getName());
+        }
         return null;
     }
 

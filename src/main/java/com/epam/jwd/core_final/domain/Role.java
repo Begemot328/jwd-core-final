@@ -2,6 +2,10 @@ package com.epam.jwd.core_final.domain;
 
 import com.epam.jwd.core_final.exception.UnknownEntityException;
 
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.stream.Stream;
+
 public enum Role implements BaseEntity {
     MISSION_SPECIALIST(1L),
     FLIGHT_ENGINEER(2L),
@@ -24,7 +28,7 @@ public enum Role implements BaseEntity {
      */
     @Override
     public String getName() {
-        return null;
+        return toString();
     }
 
     /**
@@ -32,6 +36,14 @@ public enum Role implements BaseEntity {
      * @throws UnknownEntityException if such id does not exist
      */
     public static Role resolveRoleById(int id) {
-        return null;
+        Role[] roles = Role.values();
+        Stream<Role> stream = Arrays.stream(roles);
+        Optional<Role> result =  stream.filter((role) -> role.getId() == id)
+                .findAny();
+        if(result.isPresent()) {
+            return result.get();
+        } else {
+            throw  new UnknownEntityException("No entity with id " + id);
+        }
     }
 }
