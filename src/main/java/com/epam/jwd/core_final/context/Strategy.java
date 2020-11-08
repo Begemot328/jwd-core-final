@@ -4,5 +4,5 @@ import java.util.Collection;
 
 public interface Strategy<T> {
 
-    public Collection<T> retrieveBaseEntityList();
+    public void populate(Collection<T> collection);
 }

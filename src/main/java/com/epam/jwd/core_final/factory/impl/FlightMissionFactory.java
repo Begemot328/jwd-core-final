@@ -37,10 +37,9 @@ public class FlightMissionFactory implements EntityFactory<FlightMission> {
                 && args[6] instanceof MissionResult)) {
             return null;
         } else {
-
+            return new FlightMission((String) args[0], (Date)args[1],
+                    (Date) args[2], (Long) args[3], (Spaceship) args[4],
+                    (List<CrewMember>) args[5], (MissionResult) args[6]);
         }
-        return new FlightMission((String) args[0], (Date)args[1],
-                (Date) args[2], (Long) args[3], (Spaceship) args[4],
-                (List<CrewMember>) args[5], (MissionResult) args[6]);
     }
 }

@@ -23,7 +23,7 @@ public final class PropertyReaderUtil {
      * values from property file
      */
     public static void loadProperties() {
-        final String propertiesFileName = "resource/application.properties";
+        final String propertiesFileName = "src/main/resources/application.properties";
 
         try (FileInputStream stream = new FileInputStream(propertiesFileName)){
             properties.load(stream);

@@ -26,6 +26,7 @@ public final class ApplicationProperties {
     private final String spaceshipsFileName;
     private final String fileRefreshRate;
     private final String dateTimeFormat;
+    private final static ApplicationProperties INSTANCE = new ApplicationProperties();
 
     {
         PropertyReaderUtil.loadProperties();
@@ -36,6 +37,12 @@ public final class ApplicationProperties {
         spaceshipsFileName = PropertyReaderUtil.getPropery("spaceshipsFileName");
         fileRefreshRate = PropertyReaderUtil.getPropery("fileRefreshRate");
         dateTimeFormat = PropertyReaderUtil.getPropery("dateTimeFormat");
+    }
+
+    private ApplicationProperties() {}
+
+    public static ApplicationProperties getInstance() {
+        return INSTANCE;
     }
 
     public String getInputRootDir() {

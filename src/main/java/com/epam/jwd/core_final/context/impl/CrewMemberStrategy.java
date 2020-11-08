@@ -2,29 +2,30 @@ package com.epam.jwd.core_final.context.impl;
 
 import com.epam.jwd.core_final.context.Strategy;
 import com.epam.jwd.core_final.domain.ApplicationProperties;
+import com.epam.jwd.core_final.domain.CrewMember;
+import com.epam.jwd.core_final.domain.Rank;
 import com.epam.jwd.core_final.domain.Role;
-import com.epam.jwd.core_final.domain.Spaceship;
-import com.epam.jwd.core_final.factory.impl.SpaceshipFactory;
+import com.epam.jwd.core_final.factory.impl.CrewMemberFactory;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
-public class SpaceshipStrategy implements Strategy<Spaceship> {
+public class CrewMemberStrategy implements Strategy<CrewMember> {
     private static final CharSequence HASH = "#";
-    // {1:10,2:9,3:3,4:2}
+    // 4,Davey Bentley,2;
     private static final String REGEXP = "([0-9]+)\\:([0-9]+)";
 
     @Override
-    public void populate(Collection<Spaceship> result) {
-        SpaceshipFactory factory = new SpaceshipFactory();
+    public void populate(Collection<CrewMember> result) {
+        CrewMemberFactory factory = new CrewMemberFactory();
 
         File file = new File(ApplicationProperties.getInstance().getInputRootDir()
-                + "/" + ApplicationProperties.getInstance().getSpaceshipsFileName());
+                + "/" + ApplicationProperties.getInstance().getCrewFileName());
 
         Pattern pattern = Pattern.compile(REGEXP);
         Matcher matcher;
@@ -39,17 +40,14 @@ public class SpaceshipStrategy implements Strategy<Spaceship> {
                 }
                 array = line.split(";");
 
-                matcher = pattern.matcher(array[2]);
-                Map<Role, Short> crew = new HashMap<>();
-
-                while (matcher.find()) {
-                    crew.put(Role.resolveRoleById(
-                            Integer.valueOf(matcher.group(1))),
-                            Short.valueOf(matcher.group(2)));
-                }
-
-                result.add(factory.create(array[0], Integer.valueOf(array[1]), crew));
-
+                Stream<String> stream = Arrays.stream(array);
+                stream.map(s -> {
+                    String[] array1  = s.split(",");
+                    CrewMemberFactory factory1 = new CrewMemberFactory();
+                    return factory.create(Role.resolveRoleById(Integer.parseInt(array1[0])),
+                            array1[1], Rank.resolveRankById(Integer.parseInt(array1[2])));
+                })
+                        .forEach(result::add);
             }
         }
     }

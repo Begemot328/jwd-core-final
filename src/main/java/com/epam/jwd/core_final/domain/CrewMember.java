@@ -16,7 +16,7 @@ public class CrewMember extends AbstractBaseEntity {
     private boolean isReadyForNextMissions = true;
 
     public CrewMember(String name, Role role, Rank rank) {
-        this.nameMember = nameMember;
+        this.nameMember = name;
         this.role = role;
         this.rank = rank;
     }
@@ -41,4 +41,6 @@ public class CrewMember extends AbstractBaseEntity {
     public void setReadyForNextMissions(boolean readyForNextMissions) {
         isReadyForNextMissions = readyForNextMissions;
     }
+
+
 }

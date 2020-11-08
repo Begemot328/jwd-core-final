@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 // do the same for other entities
-public class SpaceShipFactory implements EntityFactory<Spaceship> {
+public class SpaceshipFactory implements EntityFactory<Spaceship> {
 
     @Override
     public Spaceship create(Object... args) {

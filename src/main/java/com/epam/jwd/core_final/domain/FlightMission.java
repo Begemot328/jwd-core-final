@@ -51,4 +51,37 @@ public class FlightMission extends AbstractBaseEntity {
         this.missionResult = missionResult;
     }
 
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    public String getMissionName() {
+        return missionName;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public long getDistance() {
+        return distance;
+    }
+
+    public Spaceship getAssignedSpaceShift() {
+        return assignedSpaceShift;
+    }
+
+    public List<CrewMember> getAssignedCrew() {
+        return assignedCrew;
+    }
+
+    public MissionResult getMissionResult() {
+        return missionResult;
+    }
 }
