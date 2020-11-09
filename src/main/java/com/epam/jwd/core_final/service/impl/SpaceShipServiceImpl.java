@@ -83,6 +83,7 @@ public class SpaceShipServiceImpl implements SpaceshipService {
             throw new ObjectCreationException(ship);
         }
         list.add(ship);
+        ship.setId(context.getId());
         return ship;
     }
 }

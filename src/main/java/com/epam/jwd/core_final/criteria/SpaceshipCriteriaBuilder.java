@@ -31,6 +31,12 @@ public class SpaceshipCriteriaBuilder {
         return this;
     }
 
+    public SpaceshipCriteriaBuilder setReady(boolean ready) {
+        criteria.setReady(ready);
+        return this;
+    }
+
+
     public Criteria build() {
         return criteria;
     }

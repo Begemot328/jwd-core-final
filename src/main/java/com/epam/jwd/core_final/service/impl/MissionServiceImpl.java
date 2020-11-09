@@ -15,9 +15,9 @@ import java.util.function.Predicate;
 public class MissionServiceImpl implements MissionService {
     private ApplicationContext context;
 
-    private final static CrewServiceImpl INSTANCE = new CrewServiceImpl();
+    private final static MissionServiceImpl INSTANCE = new MissionServiceImpl();
 
-    public static CrewServiceImpl getInstance() {
+    public static MissionServiceImpl getInstance() {
         return INSTANCE;
     }
 
@@ -77,6 +77,7 @@ public class MissionServiceImpl implements MissionService {
             throw new ObjectCreationException(flightMission);
         }
         list.add(flightMission);
+        flightMission.setId(context.getId());
         return flightMission;
     }
 }

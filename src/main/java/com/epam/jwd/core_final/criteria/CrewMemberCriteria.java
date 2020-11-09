@@ -29,4 +29,8 @@ public class CrewMemberCriteria extends Criteria<CrewMember> {
     public  void setRole(Role role) {
         predicate = predicate.and(crewMember -> crewMember.getRole().getId() > role.getId());
     }
+
+    public  void setReady(boolean ready) {
+        predicate = predicate.and(crewMember -> crewMember.isReadyForNextMissions() == ready);
+    }
 }

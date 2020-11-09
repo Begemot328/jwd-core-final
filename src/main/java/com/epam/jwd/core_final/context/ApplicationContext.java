@@ -11,4 +11,6 @@ public interface ApplicationContext {
 
     void init() throws InvalidStateException;
 
+    int getId();
+
 }

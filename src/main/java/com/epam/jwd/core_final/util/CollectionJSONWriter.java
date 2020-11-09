@@ -15,7 +15,7 @@ public class CollectionJSONWriter {
     private ApplicationContext context;
 
 
-    context.retrieveBaseEntityList();
+    //context.retrieveBaseEntityList();
 
     public void setContext(ApplicationContext context) {
         this.context = context;
@@ -29,7 +29,7 @@ public class CollectionJSONWriter {
         try {
             FileOutputStream stream = new FileOutputStream(file);
 
-            collection.stream().map(o -> o.toString()).forEach(s -> stream.write(s));
+           // collection.stream().map(o -> o.toString()).forEach(s -> stream.write(s));
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

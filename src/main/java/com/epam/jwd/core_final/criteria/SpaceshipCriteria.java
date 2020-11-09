@@ -23,4 +23,8 @@ public class SpaceshipCriteria extends Criteria<Spaceship> {
     public void setMinimalDistance(long distance) {
         predicate = predicate.and(spaceship -> spaceship.getFlightDistance() >= distance);
     }
+
+    public void setReady(boolean ready) {
+        predicate = predicate.and(spaceship -> spaceship.isReadyForNextMissions() == ready);
+    }
 }

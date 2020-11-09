@@ -20,7 +20,7 @@ public class NassaContext implements ApplicationContext {
 
     private final static NassaContext INSTANCE = new NassaContext();
 
-    private final static String name = Spaceship.class.getName();
+    private static int id = 0;
 
     private NassaContext() {}
 
@@ -54,6 +54,8 @@ public class NassaContext implements ApplicationContext {
         throw new InvalidStateException();
     }
 
-
+    public int getId() {
+        return ++id;
+    }
 
 }

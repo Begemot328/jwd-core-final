@@ -39,4 +39,9 @@ public class CrewMemberCriteriaBuilder {
     public Criteria build() {
         return criteria;
     }
+
+    public CrewMemberCriteriaBuilder setReady(boolean b) {
+        criteria.setReady(b);
+        return this;
+    }
 }

@@ -9,14 +9,13 @@ package com.epam.jwd.core_final.domain;
  */
 public class CrewMember extends AbstractBaseEntity {
     // todo
-    private String name = "CrewMember";
-    private String nameMember;
+    private String name;
     private Role role;
     private Rank rank;
     private boolean isReadyForNextMissions = true;
 
     public CrewMember(String name, Role role, Rank rank) {
-        this.nameMember = name;
+        this.name = name;
         this.role = role;
         this.rank = rank;
     }

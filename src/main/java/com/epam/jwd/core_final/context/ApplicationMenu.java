@@ -17,34 +17,22 @@ public interface ApplicationMenu {
                 "4. Print all crewmembers to JSON\n" +
                 "5. Print all spaceships to JSON\n" +
                 "0. Exit";
-        System.out.println(options);
-        Scanner scanner = new Scanner(System.in);
-        if (scanner.hasNext()) {
-            return scanner.next();
-        }
+
         return options;
     }
 
     default String handleUserInput(String s) {
+        System.out.println(s);
         String result = "";
+        Scanner scanner = new Scanner(System.in);
 
-        switch (s) {
-            case "1":
-                break;
-            case "2":
-                break;
-            case "3":
-                break;
-            case "4":
-                break;
-            case "5":
-                break;
-            case "9":
-                System.exit(0);
-                break;
-            default:
-                result = printAvailableOptions();
+        if (scanner.hasNext()) {
+            result = scanner.next();
         }
+
+
+        MenuHandler handler = MenuHandler.getInstance();
+        handler.handle(result);
         return result;
     }
 }

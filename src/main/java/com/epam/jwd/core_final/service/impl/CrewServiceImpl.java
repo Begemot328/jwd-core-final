@@ -82,6 +82,7 @@ public class CrewServiceImpl implements CrewService {
             throw new ObjectCreationException(member);
         }
         list.add(member);
+        member.setId(context.getId());
         return member;
     }
 }

@@ -21,4 +21,12 @@ public abstract class AbstractBaseEntity implements BaseEntity {
         // todo
         return name;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }

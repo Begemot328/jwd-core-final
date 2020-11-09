@@ -14,6 +14,4 @@ public interface Application {
         nassaContext.init();
         return applicationContextSupplier::get;
     }
-
-
 }
