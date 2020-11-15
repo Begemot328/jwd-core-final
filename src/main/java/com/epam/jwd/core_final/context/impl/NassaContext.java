@@ -4,8 +4,10 @@ import com.epam.jwd.core_final.context.ApplicationContext;
 import com.epam.jwd.core_final.context.Strategy;
 import com.epam.jwd.core_final.domain.BaseEntity;
 import com.epam.jwd.core_final.domain.CrewMember;
+import com.epam.jwd.core_final.domain.FlightMission;
 import com.epam.jwd.core_final.domain.Spaceship;
 import com.epam.jwd.core_final.exception.InvalidStateException;
+import com.epam.jwd.core_final.exception.UnknownEntityException;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,6 +18,8 @@ public class NassaContext implements ApplicationContext {
     // no getters/setters for them
     private Collection<CrewMember> crewMembers = new ArrayList<>();
     private Collection<Spaceship> spaceships = new ArrayList<>();
+
+    private Collection<FlightMission> missions = new ArrayList<>();
 
 
     private final static NassaContext INSTANCE = new NassaContext();
@@ -36,7 +40,11 @@ public class NassaContext implements ApplicationContext {
         if (tClass.getName().equals(Spaceship.class.getName())) {
             return (Collection<T>) spaceships;
         }
-        return null;
+        if (tClass.getName().equals(FlightMission.class.getName())) {
+            return (Collection<T>) missions;
+        }
+
+        throw new UnknownEntityException(tClass.getName());
     }
 
     /**
@@ -51,7 +59,7 @@ public class NassaContext implements ApplicationContext {
 
         strategy = new CrewMemberStrategy();
         strategy.populate(crewMembers);
-        throw new InvalidStateException();
+        //throw new InvalidStateException();
     }
 
     public int getId() {

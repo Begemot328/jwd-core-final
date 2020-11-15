@@ -1,6 +1,7 @@
 package com.epam.jwd.core_final.service.impl;
 
 import com.epam.jwd.core_final.context.ApplicationContext;
+import com.epam.jwd.core_final.context.impl.NassaContext;
 import com.epam.jwd.core_final.criteria.Criteria;
 import com.epam.jwd.core_final.domain.CrewMember;
 import com.epam.jwd.core_final.domain.Spaceship;
@@ -15,7 +16,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 public class SpaceShipServiceImpl implements SpaceshipService {
-    private ApplicationContext context;
+    private ApplicationContext context = NassaContext.getInstance();
 
     private final static SpaceShipServiceImpl INSTANCE = new SpaceShipServiceImpl();
 

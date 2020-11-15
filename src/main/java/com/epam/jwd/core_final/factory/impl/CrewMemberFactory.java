@@ -16,13 +16,13 @@ public class CrewMemberFactory implements EntityFactory<CrewMember> {
         Rank rank;
 
         if (args.length < 3 ||
-                !(args[0] instanceof Long
-                        && args[2] instanceof Long
+                !(args[0] instanceof Role
+                        && args[2] instanceof Rank
                         && args[1] instanceof String)) {
             return null;
         } else {
-            role = Role.resolveRoleById((int) args[0]);
-            rank = Rank.resolveRankById((int) args[2]);
+            role = ((Role) args[0]);
+            rank = ((Rank) args[2]);
             name = (String) args[1];
         }
 

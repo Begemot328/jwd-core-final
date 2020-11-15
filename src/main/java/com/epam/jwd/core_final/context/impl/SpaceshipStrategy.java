@@ -7,6 +7,7 @@ import com.epam.jwd.core_final.domain.Spaceship;
 import com.epam.jwd.core_final.factory.impl.SpaceshipFactory;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +24,7 @@ public class SpaceshipStrategy implements Strategy<Spaceship> {
     public void populate(Collection<Spaceship> result) {
         SpaceshipFactory factory = new SpaceshipFactory();
 
-        File file = new File(ApplicationProperties.getInstance().getInputRootDir()
+        File file = new File("src/main/resources" + "/" + ApplicationProperties.getInstance().getInputRootDir()
                 + "/" + ApplicationProperties.getInstance().getSpaceshipsFileName());
 
         Pattern pattern = Pattern.compile(REGEXP);
@@ -31,9 +32,9 @@ public class SpaceshipStrategy implements Strategy<Spaceship> {
         String line;
         String[] array;
 
-        try (Scanner scanner = new Scanner(System.in)) {
-            while (scanner.hasNext()) {
-                line = scanner.next();
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                line = scanner.nextLine();
                 if (line.contains(HASH)) {
                     continue;
                 }
@@ -48,9 +49,11 @@ public class SpaceshipStrategy implements Strategy<Spaceship> {
                             Short.valueOf(matcher.group(2)));
                 }
 
-                result.add(factory.create(array[0], Integer.valueOf(array[1]), crew));
+                result.add(factory.create(array[0], Long.valueOf(array[1]), crew));
 
             }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }

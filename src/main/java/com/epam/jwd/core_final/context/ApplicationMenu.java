@@ -30,9 +30,6 @@ public interface ApplicationMenu {
             result = scanner.next();
         }
 
-
-        MenuHandler handler = MenuHandler.getInstance();
-        handler.handle(result);
         return result;
     }
 }

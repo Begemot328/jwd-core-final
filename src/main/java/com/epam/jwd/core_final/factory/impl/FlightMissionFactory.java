@@ -32,8 +32,8 @@ public class FlightMissionFactory implements EntityFactory<FlightMission> {
                 && args[3] instanceof Long
                 && args[4] instanceof Spaceship
                 && args[5] instanceof List
-                && ((List<?>) args[5]).isEmpty()
-                && (List<?>) ((List<?>) args[5]).get(0) instanceof CrewMember
+                && !((List<?>) args[5]).isEmpty()
+                && ((List<?>) args[5]).get(0) instanceof CrewMember
                 && args[6] instanceof MissionResult)) {
             return null;
         } else {

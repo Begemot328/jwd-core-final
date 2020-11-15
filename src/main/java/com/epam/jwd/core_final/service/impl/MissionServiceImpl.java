@@ -1,6 +1,7 @@
 package com.epam.jwd.core_final.service.impl;
 
 import com.epam.jwd.core_final.context.ApplicationContext;
+import com.epam.jwd.core_final.context.impl.NassaContext;
 import com.epam.jwd.core_final.criteria.Criteria;
 import com.epam.jwd.core_final.domain.FlightMission;
 import com.epam.jwd.core_final.exception.ObjectCreationException;
@@ -13,7 +14,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 public class MissionServiceImpl implements MissionService {
-    private ApplicationContext context;
+    private ApplicationContext context = NassaContext.getInstance();
 
     private final static MissionServiceImpl INSTANCE = new MissionServiceImpl();
 

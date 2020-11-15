@@ -8,6 +8,7 @@ import com.epam.jwd.core_final.domain.Role;
 import com.epam.jwd.core_final.factory.impl.CrewMemberFactory;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Scanner;
@@ -24,7 +25,7 @@ public class CrewMemberStrategy implements Strategy<CrewMember> {
     public void populate(Collection<CrewMember> result) {
         CrewMemberFactory factory = new CrewMemberFactory();
 
-        File file = new File(ApplicationProperties.getInstance().getInputRootDir()
+        File file = new File("src/main/resources" + "/" + ApplicationProperties.getInstance().getInputRootDir()
                 + "/" + ApplicationProperties.getInstance().getCrewFileName());
 
         Pattern pattern = Pattern.compile(REGEXP);
@@ -32,9 +33,9 @@ public class CrewMemberStrategy implements Strategy<CrewMember> {
         String line;
         String[] array;
 
-        try (Scanner scanner = new Scanner(System.in)) {
-            while (scanner.hasNext()) {
-                line = scanner.next();
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                line = scanner.nextLine();
                 if (line.contains(HASH)) {
                     continue;
                 }
@@ -49,6 +50,8 @@ public class CrewMemberStrategy implements Strategy<CrewMember> {
                 })
                         .forEach(result::add);
             }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }

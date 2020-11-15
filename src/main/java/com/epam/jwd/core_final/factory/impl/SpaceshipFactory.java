@@ -19,17 +19,16 @@ public class SpaceshipFactory implements EntityFactory<Spaceship> {
 
         if (args.length < 3 ||
                 !(args[0] instanceof String
-                        && args[2] instanceof Short[]
-                        && ((Long[]) args[2]).length == 4
+                        && args[2] instanceof HashMap
+                        && args[2].getClass().equals((new HashMap<Role,Short>()).getClass())
+                        && ((HashMap) args[2]).size() == 4
                         && args[1] instanceof Long)) {
             return null;
         } else {
-            Short[] array = (Short[]) args[2];
-            name = (String) args[1];
-            distance = (Long) args[0];
+            name = (String) args[0];
+            distance = (Long) args[1];
 
-            Map<Role, Short> crew = new HashMap<>();
-            crew.put(Role.resolveRoleById(1), array[0]);
+            Map<Role, Short> crew = (HashMap<Role,Short>) args[2];
             return new Spaceship(crew, distance, name);
         }
     }

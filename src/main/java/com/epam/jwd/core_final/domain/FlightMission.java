@@ -83,4 +83,21 @@ public class FlightMission extends AbstractBaseEntity {
     public MissionResult getMissionResult() {
         return missionResult;
     }
+
+    @Override
+    public String toString() {
+        String crew = new String();
+        for (CrewMember member:assignedCrew) {
+            crew += "\n" + member.getName();
+        }
+        return "FlightMission{" +
+                "name='" + name + '\'' +
+                ", \n startDate=" + startDate +
+                ", \n endDate=" + endDate +
+                ", \n distance=" + distance +
+                ", \n ship=" + assignedSpaceShift.getName() +
+                ", \n assignedCrew=" + crew +
+                ", \n missionResult=" + missionResult +
+                '}';
+    }
 }
