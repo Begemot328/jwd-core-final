@@ -21,21 +21,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-/*
-        File file = new File("src/main/resources/logging.properties");
-        if (file.exists()) {
-            logger.info("file ok");
-        } else {
-            logger.warn("no file!");
-        }
 
-        try {
-            LogManager.getLogManager().readConfiguration(Main.class.getResourceAsStream(
-                    "src/main/resources/logging.properties"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-  */
         logger.info(START_MESSAGE);
         logger.error(START_MESSAGE);
         try {
