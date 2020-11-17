@@ -11,7 +11,10 @@ public interface Application {
         final Supplier<ApplicationContext> applicationContextSupplier = NassaContext::getInstance; // todo
         final NassaContext nassaContext = NassaContext.getInstance();
 
+
         nassaContext.init();
         return applicationContextSupplier::get;
     }
+
+
 }

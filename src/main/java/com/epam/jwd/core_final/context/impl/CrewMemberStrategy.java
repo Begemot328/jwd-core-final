@@ -1,5 +1,6 @@
 package com.epam.jwd.core_final.context.impl;
 
+import com.epam.jwd.core_final.context.ApplicationContext;
 import com.epam.jwd.core_final.context.Strategy;
 import com.epam.jwd.core_final.domain.ApplicationProperties;
 import com.epam.jwd.core_final.domain.CrewMember;
@@ -51,7 +52,7 @@ public class CrewMemberStrategy implements Strategy<CrewMember> {
                         .forEach(result::add);
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            ApplicationContext.getLoggerInstance().error(e.getMessage());
         }
     }
 }

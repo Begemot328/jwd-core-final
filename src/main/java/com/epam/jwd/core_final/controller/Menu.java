@@ -27,4 +27,8 @@ public class Menu {
 		}
 		commands[i] = command;
 	}
+
+	public String getName() {
+		return name;
+	}
 }

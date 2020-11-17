@@ -17,22 +17,16 @@ public class Main {
 
     private static final String START_MESSAGE = "Starting";
 
-    static Logger logger = LogManager.getLogger(Main.class);
 
 
     public static void main(String[] args) {
 
-        logger.info(START_MESSAGE);
-        logger.error(START_MESSAGE);
+
         try {
             ApplicationMenu menu = Application.start();
         } catch (InvalidStateException e) {
             e.printStackTrace();
         }
-
-        logger.info("Starting сontroller");
-        System.out.println("Starting сontroller");
-
 
         IController controller = Controller.getInstance();
         controller.run();

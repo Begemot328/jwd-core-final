@@ -2,7 +2,20 @@ package com.epam.jwd.core_final.controller;
 
 
 
+import com.epam.jwd.core_final.context.ApplicationContext;
+import com.epam.jwd.core_final.controller.commands.CreateMissionCommand;
+import com.epam.jwd.core_final.controller.commands.ViewAllCrewMemebersCommand;
+import com.epam.jwd.core_final.controller.commands.ViewAllMissionsCommand;
+import com.epam.jwd.core_final.controller.commands.ViewAllSpaceShipsCommand;
+import com.epam.jwd.core_final.controller.commands.ViewCrewMembersByRoleCommand;
+import com.epam.jwd.core_final.controller.commands.WriteCrewMembersToJacksonCommand;
+import com.epam.jwd.core_final.controller.commands.WriteMissionsToJacksonCommand;
+import com.epam.jwd.core_final.controller.commands.WriteSpaceshipsToJacksonCommand;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.Scanner;
+import java.util.function.Supplier;
 
 
 public class Controller implements IController {
@@ -21,36 +34,21 @@ public class Controller implements IController {
 	private final static String WRONG_COMMAND = "Wrong command!";
 	private final static String FILE_NOT_FOUND = "File not found!";
 	private final static String DEFAULT_FILENAME = "default";
-	private final static String LOGIN = "login";
-	private final static String PASSWORD = "password";
-	private final static String WELCOME = "Welcome, USER FIRSTNAME LASTNAME!";
-	private final static String FIRSTNAME = "FIRSTNAME";
-	private final static String LASTNAME = "LASTNAME";
 	private static final String GO_TO_MAIN_MENU = "go to main menu";
+	private static final String GO_TO_JSON_MENU = "go to JSON menu";
 	private static final String EXIT = "exit";
-	public static final String OPEN_NOTEBOOK = "open default notebook";
-	public static final String SAVE_NOTEBOOK = "save notebook to default";
-	public static final String OPEN_NOTEBOOK_FROM_FILE = "open notebook from file";
-	public static final String NOTEBOOK_MENU = "work with notebook";
-	public static final String SAVE_NOTEBOOK_TO_FILE = "save notebook to file";
-	public static final String GO_TO_SEARCH_MENU = "go to search menu";
-	public static final String NULL_NOTEBOOK = "notebook not found";
-	public static final String SEARCH_RESET = "start a new search";
-	public static final String SEARCH_BY_THEME = "search a note by theme";
-	public static final String THEME = "theme";
-	public static final String SEARCH_BY_MAIL = "search a note by mail adress";
-	public static final String TEXT = "text";
-	public static final String SEARCH_BY_TEXT = "search a note by text";
-	public static final String DATE = "date";
-	public static final String SEARCH_BY_DATE = "search a note by date";
-	public static final String MAIL = "mail adress";
-	public static final String ADD_NOTE = "add new note";
+	private static final String NEW_LINE = "\n";
 	public static final String MAIN_MENU = "Main menu";
-	
+	private static final String JSON_MENU = "JSON menu";
+
 	private Scanner scanner;
 	private Menu currentMenu;
 	private Menu mainMenu;
+	private Menu JSONMenu;
 
+
+
+	private static Logger logger = LogManager.getLogger(ApplicationContext.class);
 	private static IController INSTANCE = new Controller();
 
 	private Controller() {
@@ -58,7 +56,20 @@ public class Controller implements IController {
 		
 		mainMenu = new Menu(MAIN_MENU);
 		mainMenu.setCommand(new CreateMissionCommand(), 1);
-		mainMenu.setCommand(new ExitCommand(), 6);
+		mainMenu.setCommand(new JSONMenuCommand(), 2);
+		mainMenu.setCommand(new ViewAllCrewMemebersCommand(System.out::println), 3);
+
+		mainMenu.setCommand(new ViewCrewMembersByRoleCommand(System.out::println, getSupplierShort("Role")), 3);
+		mainMenu.setCommand(new ViewAllMissionsCommand(System.out::println), 4);
+		mainMenu.setCommand(new ViewAllSpaceShipsCommand(System.out::println), 5);
+		mainMenu.setCommand(new ExitCommand(), 9);
+
+		JSONMenu = new Menu(JSON_MENU);
+		JSONMenu.setCommand(new WriteSpaceshipsToJacksonCommand(), 1);
+		JSONMenu.setCommand(new WriteCrewMembersToJacksonCommand(), 2);
+		JSONMenu.setCommand(new WriteMissionsToJacksonCommand(), 3);
+		JSONMenu.setCommand(new MainMenuCommand(),8);
+		JSONMenu.setCommand(new ExitCommand(),9);
 
 		currentMenu = mainMenu;
 	}
@@ -82,20 +93,32 @@ public class Controller implements IController {
 			try {
 				commandCode = Integer.parseInt(scanner.next());
 			} catch (Exception e) {
+				ApplicationContext.getLoggerInstance().error(WRONG_COMMAND);
 				System.out.println(WRONG_COMMAND);
 			}
 			command = currentMenu.getCommand(commandCode);
 			if (command == null) {
+				ApplicationContext.getLoggerInstance().error(NO_SUCH_COMMAND);
 				System.out.println(NO_SUCH_COMMAND);
 				return;
 			}
 		}
-		command.execute();
+		try {
+			command.execute();
+		} catch (RuntimeException e) {
+			ApplicationContext.getLoggerInstance().error(e.getMessage());
+			//logger.error(e.getMessage());
+			//logger.error("1");
+		}
+
 	}
 
 	private void writeMenu(Menu menu) {
 		ICommand[] commands = new ICommand[menu.getCommands().length];
 		commands = menu.getCommands().clone();
+
+		System.out.println(NEW_LINE + menu.getName() + NEW_LINE);
+
 		for (int i = 1; i < commands.length; i++) {
 			if (commands[i] == null) {
 				continue;
@@ -110,6 +133,15 @@ public class Controller implements IController {
 		return readParameter(type, name);
 	}
 
+	public Supplier<Short> getSupplierShort(String data) {
+		return new Supplier<Short>() {
+			@Override
+			public Short get() {
+				return (Short) readParameter(Type.SHORT, data);
+			}
+		};
+	}
+
 	private Object readParameter(Type type, String data) {
 		while (true) {
 		System.out.println(DATA_DESCRIPTION.replace(DATA, data));	
@@ -119,17 +151,15 @@ public class Controller implements IController {
 					return scanner.next();
 				}
 			case DOUBLE:
-				try {
-					if(scanner.hasNext()) {
-						return Double.parseDouble(scanner.next());
-					}
-					
-				} catch (NumberFormatException e) {
-					System.out.println(WRONG_DATA_TYPE);
-				}
-				
 				if(scanner.hasNextDouble()) {
 					return scanner.nextDouble();
+				} else {
+					System.out.println(WRONG_DATA_TYPE);
+					scanner.next();
+				}
+			case SHORT:
+				if(scanner.hasNextShort()) {
+					return scanner.nextShort();
 				} else {
 					System.out.println(WRONG_DATA_TYPE);
 					scanner.next();
@@ -138,12 +168,7 @@ public class Controller implements IController {
 		}
 	}
 	
-
-	
 	// Commands- inner classes of commands
-	
-
-	
 	public class MainMenuCommand implements ICommand {
 		
 		@Override
@@ -154,6 +179,19 @@ public class Controller implements IController {
 		@Override
 		public void execute() {
 			Controller.this.currentMenu = mainMenu;	
+		}
+	}
+
+	public class JSONMenuCommand implements ICommand {
+
+		@Override
+		public String getText() {
+			return GO_TO_JSON_MENU;
+		}
+
+		@Override
+		public void execute() {
+			Controller.this.currentMenu = JSONMenu;
 		}
 	}
 	
