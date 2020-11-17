@@ -1,7 +1,10 @@
 package com.epam.jwd.core_final.exception;
 
+import java.util.Arrays;
+
 public class UnknownEntityException extends RuntimeException {
 
+    private static final String NEW_LINE = "/n";
     private final String entityName;
     private final Object[] args;
 
@@ -19,8 +22,16 @@ public class UnknownEntityException extends RuntimeException {
 
     @Override
     public String getMessage() {
-        // todo
-        // you should use entityName, args (if necessary)
-        return null;
+        String message = "Can't create entity " + entityName;
+
+        if (args != null && args.length != 0) {
+            message += " with args: ";
+            String finalMessage = message;
+            Arrays.stream(args).filter(arg -> arg != null)
+                    .forEach(arg -> finalMessage.concat(arg.toString() + NEW_LINE));
+            message = finalMessage;
+        }
+
+        return message;
     }
 }

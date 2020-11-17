@@ -1,5 +1,8 @@
 package com.epam.jwd.core_final.domain;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -19,14 +22,14 @@ public class FlightMission extends AbstractBaseEntity {
     // todo
 
     private String name;
-    private Date startDate;
-    private Date endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private long distance;
     private Spaceship assignedSpaceShift;
     private List<CrewMember> assignedCrew;
     private MissionResult missionResult;
 
-    public FlightMission(String missionName, Date startDate, Date endDate,
+    public FlightMission(String missionName, LocalDate startDate, LocalDate endDate,
                          long distance, Spaceship assignedSpaceShift,
                          List<CrewMember> assignedCrew, MissionResult missionResult) {
         this.name = missionName;
@@ -38,7 +41,7 @@ public class FlightMission extends AbstractBaseEntity {
         this.missionResult = missionResult;
     }
 
-    public FlightMission(String missionName, Date startDate, Date endDate,
+    public FlightMission(String missionName, LocalDate startDate, LocalDate endDate,
                          long distance, Spaceship assignedSpaceShift,
                          MissionResult missionResult, CrewMember ... members) {
         this.name = missionName;
@@ -60,11 +63,11 @@ public class FlightMission extends AbstractBaseEntity {
         return name;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
@@ -92,12 +95,16 @@ public class FlightMission extends AbstractBaseEntity {
         }
         return "FlightMission{" +
                 "name='" + name + '\'' +
-                ", \n startDate=" + startDate +
-                ", \n endDate=" + endDate +
+                ", \n startDate=" + formatLocalDate(startDate) +
+                ", \n endDate=" + formatLocalDate(endDate) +
                 ", \n distance=" + distance +
                 ", \n ship=" + assignedSpaceShift.getName() +
                 ", \n assignedCrew=" + crew +
                 ", \n missionResult=" + missionResult +
                 '}';
+    }
+
+    public String formatLocalDate(LocalDate date) {
+        return date.format( DateTimeFormatter.ofPattern(ApplicationProperties.getInstance().getDateFormat()));
     }
 }

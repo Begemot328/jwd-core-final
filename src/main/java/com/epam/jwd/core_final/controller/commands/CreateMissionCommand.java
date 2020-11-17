@@ -1,7 +1,6 @@
 package com.epam.jwd.core_final.controller.commands;
 
 import com.epam.jwd.core_final.controller.ICommand;
-import com.epam.jwd.core_final.criteria.CrewMemberCriteria;
 import com.epam.jwd.core_final.criteria.CrewMemberCriteriaBuilder;
 import com.epam.jwd.core_final.criteria.Criteria;
 import com.epam.jwd.core_final.criteria.SpaceshipCriteriaBuilder;
@@ -15,14 +14,15 @@ import com.epam.jwd.core_final.service.impl.CrewServiceImpl;
 import com.epam.jwd.core_final.service.impl.MissionServiceImpl;
 import com.epam.jwd.core_final.service.impl.SpaceShipServiceImpl;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 public class CreateMissionCommand implements ICommand {
     private static final String DESCRIPTION = "Create mission";
+    private static final String MISSION_NAME = "Mission";
+    private static final String SPACE = " ";
 
     @Override
     public String getText() {
@@ -35,42 +35,35 @@ public class CreateMissionCommand implements ICommand {
         SpaceShipServiceImpl shipService = SpaceShipServiceImpl.getInstance();
 
         MissionServiceImpl missionService = MissionServiceImpl.getInstance();
-        Spaceship ship = (Spaceship) shipService.findAllSpaceshipsByCriteria(
-                SpaceshipCriteriaBuilder.newBuild().setReady(true).build()).stream().findAny().get();
+        Criteria<Spaceship> spaceshipCriteria =
+                SpaceshipCriteriaBuilder.newBuild().setReady(true).build();
+        Spaceship ship = shipService.findAllSpaceshipsByCriteria(
+                spaceshipCriteria)
+                .stream().findAny().orElseThrow(() -> new NoResourceException(spaceshipCriteria));
 
         List<CrewMember> list = new ArrayList<>();
+
         for (int i = 1; i <= 4; i++) {
             for (int j = 0; j < ship.getCrew().get(Role.resolveRoleById(i)); j++) {
-                CrewMember member;
-                Criteria criteria =
-                        CrewMemberCriteriaBuilder.newBuild().setRole(Role.resolveRoleById(i)).setReady(true).build();
-                Optional<CrewMember> result= crewService.findAllCrewMembersByCriteria(
-                        criteria
-                ).stream().findAny();
+                Criteria<CrewMember> crewMemberCriteria =
+                        CrewMemberCriteriaBuilder.newBuild()
+                                .setRole(Role.resolveRoleById(i)).setReady(true).build();
+                CrewMember member = crewService.findAllCrewMembersByCriteria(
+                        crewMemberCriteria
+                ).stream().findAny().orElseThrow(() -> new NoResourceException(crewMemberCriteria));
 
-                if (result.isPresent()) {
-                    member = (CrewMember) result.get();
-                } else {
-                    throw new NoResourceException((CrewMemberCriteria) criteria);
-                }
                 crewService.assignCrewMemberOnMission(member);
+                shipService.assignSpaceshipOnMission(ship);
+
                 list.add(member);
             }
         }
 
-        long time = (long) (Calendar.getInstance().getTime().getTime() * Math.random() * 2);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(time);
-        Date dateBegin = calendar.getTime();
+        LocalDate dateBegin = LocalDate.now().plusYears(randomize(10)).plusMonths(randomize(6)).plusDays(randomize(15));
+        LocalDate dateEnd = dateBegin.plusWeeks(randomize(7));
 
-        calendar.setTimeInMillis(time + 1000 * 7 * 24 * 3600);
-
-        Date dateEnd = calendar.getTime();
-
-        //(String missionName, Date startDate, Date endDate,
-        //                         long distance, Spaceship assignedSpaceShift,
-        //                         List<CrewMember> assignedCrew, MissionResult missionResult)
-        FlightMission mission = missionService.createMission(new String("Mission " + ((int) (Math.random() * 100.))),
+        FlightMission mission = missionService.createMission(
+                MISSION_NAME + SPACE + ((int) (Math.random() * 100.)),
                 dateBegin,
                 dateEnd,
                 (long) (Math.random() * 1000000.),
@@ -79,6 +72,9 @@ public class CreateMissionCommand implements ICommand {
                 MissionResult.PLANNED);
 
         System.out.println(mission);
+    }
 
+    private int randomize(int range) {
+        return (int) (Math.random() * range * 1.);
     }
 }

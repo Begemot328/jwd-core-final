@@ -12,7 +12,6 @@ public class NoResourceException extends RuntimeException {
 
     @Override
     public String getMessage() {
-        // todo
         String message;
         message = " Object by criteria " + criteria.toString() + " cannot be founded";
 

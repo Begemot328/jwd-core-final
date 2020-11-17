@@ -10,9 +10,8 @@ public class ObjectCreationException extends RuntimeException{
 
     @Override
     public String getMessage() {
-        // todo
         String message;
-        message = o.toString() + "cannot be created";
+        message = o.toString() + " cannot be created";
 
         return message;
     }

@@ -19,18 +19,18 @@ import java.util.stream.Stream;
 
 public class CrewMemberStrategy implements Strategy<CrewMember> {
     private static final CharSequence HASH = "#";
-    // 4,Davey Bentley,2;
-    private static final String REGEXP = "([0-9]+)\\:([0-9]+)";
+    private static final String COMMA = ",";
+    private static final String SEMICOLON = ";";
+    private static final String SLASH = "/";
 
     @Override
     public void populate(Collection<CrewMember> result) {
         CrewMemberFactory factory = new CrewMemberFactory();
 
-        File file = new File("src/main/resources" + "/" + ApplicationProperties.getInstance().getInputRootDir()
-                + "/" + ApplicationProperties.getInstance().getCrewFileName());
+        File file = new File(ApplicationProperties.getInstance().getResorcesDir()
+                + SLASH + ApplicationProperties.getInstance().getInputRootDir()
+                + SLASH + ApplicationProperties.getInstance().getCrewFileName());
 
-        Pattern pattern = Pattern.compile(REGEXP);
-        Matcher matcher;
         String line;
         String[] array;
 
@@ -40,14 +40,14 @@ public class CrewMemberStrategy implements Strategy<CrewMember> {
                 if (line.contains(HASH)) {
                     continue;
                 }
-                array = line.split(";");
+                array = line.split(SEMICOLON);
 
                 Stream<String> stream = Arrays.stream(array);
                 stream.map(s -> {
-                    String[] array1  = s.split(",");
-                    CrewMemberFactory factory1 = new CrewMemberFactory();
-                    return factory.create(Role.resolveRoleById(Integer.parseInt(array1[0])),
-                            array1[1], Rank.resolveRankById(Integer.parseInt(array1[2])));
+                    String[] arrayInner = s.split(COMMA);
+
+                    return factory.create(Role.resolveRoleById(Integer.parseInt(arrayInner[0])),
+                            arrayInner[1], Rank.resolveRankById(Integer.parseInt(arrayInner[2])));
                 })
                         .forEach(result::add);
             }

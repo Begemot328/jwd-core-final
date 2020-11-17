@@ -9,10 +9,15 @@ import java.util.function.Predicate;
  */
 public class SpaceshipCriteria extends Criteria<Spaceship> {
 
-    Predicate<Spaceship> predicate;
+    private final String READY= "ready for next mission; ";
+    private final String NOT_READY= "not ready for next mission; ";
+
+    private Predicate<Spaceship> predicate;
+    private String description;
 
     SpaceshipCriteria() {
         predicate = (figure) -> true;
+        description = new String();
     }
 
     @Override
@@ -22,9 +27,12 @@ public class SpaceshipCriteria extends Criteria<Spaceship> {
 
     public void setMinimalDistance(long distance) {
         predicate = predicate.and(spaceship -> spaceship.getFlightDistance() >= distance);
+        description.concat("distance = " + distance);
     }
 
     public void setReady(boolean ready) {
         predicate = predicate.and(spaceship -> spaceship.isReadyForNextMissions() == ready);
+        description += (ready ? READY : NOT_READY);
+
     }
 }

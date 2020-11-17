@@ -1,7 +1,9 @@
 package com.epam.jwd.core_final.criteria;
 
+import com.epam.jwd.core_final.domain.CrewMember;
 import com.epam.jwd.core_final.domain.Rank;
 import com.epam.jwd.core_final.domain.Role;
+import com.epam.jwd.core_final.domain.Spaceship;
 
 /**
  * {@link Criteria}  Builder class
@@ -36,8 +38,7 @@ public class SpaceshipCriteriaBuilder {
         return this;
     }
 
-
-    public Criteria build() {
+    public Criteria<Spaceship> build() {
         return criteria;
     }
 }

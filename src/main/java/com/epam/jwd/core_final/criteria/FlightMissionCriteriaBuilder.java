@@ -1,7 +1,10 @@
 package com.epam.jwd.core_final.criteria;
 
+import com.epam.jwd.core_final.domain.CrewMember;
+import com.epam.jwd.core_final.domain.FlightMission;
 import com.epam.jwd.core_final.domain.Spaceship;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -27,17 +30,17 @@ public class FlightMissionCriteriaBuilder {
         return builder;
     }
 
-    public FlightMissionCriteriaBuilder setDateAfter(Date date) {
+    public FlightMissionCriteriaBuilder setDateAfter(LocalDate date) {
         criteria.setDateAfter(date);
         return this;
     }
 
-    public FlightMissionCriteriaBuilder setDateBefore(Date date) {
+    public FlightMissionCriteriaBuilder setDateBefore(LocalDate date) {
         criteria.setDateBefore(date);
         return this;
     }
 
-    public Criteria build() {
+    public Criteria<FlightMission> build() {
         return criteria;
     }
 }

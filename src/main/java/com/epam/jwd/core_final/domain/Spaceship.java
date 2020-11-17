@@ -44,8 +44,8 @@ public class Spaceship extends AbstractBaseEntity {
     @Override
     public String toString() {
         return "Spaceship{" +
+                "name='" + name + '\'' +
                 ", flightDistance=" + flightDistance +
-                ", name='" + name + '\'' +
                 '}';
     }
 }

@@ -1,5 +1,6 @@
 package com.epam.jwd.core_final.criteria;
 
+import com.epam.jwd.core_final.domain.CrewMember;
 import com.epam.jwd.core_final.domain.Rank;
 import com.epam.jwd.core_final.domain.Role;
 
@@ -36,7 +37,7 @@ public class CrewMemberCriteriaBuilder {
         return this;
     }
 
-    public Criteria build() {
+    public Criteria<CrewMember> build() {
         return criteria;
     }
 

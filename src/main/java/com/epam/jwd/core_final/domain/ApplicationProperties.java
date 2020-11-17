@@ -21,11 +21,13 @@ import java.util.Properties;
 public final class ApplicationProperties {
     private final String inputRootDir;
     private final String outputRootDir;
+    private final String resorcesDir;
     private final String crewFileName;
     private final String missionsFileName;
     private final String spaceshipsFileName;
     private final String fileRefreshRate;
     private final String dateTimeFormat;
+    private final String dateFormat;
     private final static ApplicationProperties INSTANCE = new ApplicationProperties();
 
     {
@@ -37,6 +39,8 @@ public final class ApplicationProperties {
         spaceshipsFileName = PropertyReaderUtil.getPropery("spaceshipsFileName");
         fileRefreshRate = PropertyReaderUtil.getPropery("fileRefreshRate");
         dateTimeFormat = PropertyReaderUtil.getPropery("dateTimeFormat");
+        dateFormat = PropertyReaderUtil.getPropery("dateFormat");
+        resorcesDir = PropertyReaderUtil.getPropery("resourcesDir");
     }
 
     private ApplicationProperties() {}
@@ -71,5 +75,13 @@ public final class ApplicationProperties {
 
     public String getDateTimeFormat() {
         return dateTimeFormat;
+    }
+
+    public String getDateFormat() {
+        return dateFormat;
+    }
+
+    public String getResorcesDir() {
+        return resorcesDir;
     }
 }

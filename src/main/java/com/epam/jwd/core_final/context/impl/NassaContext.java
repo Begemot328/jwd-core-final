@@ -8,12 +8,10 @@ import com.epam.jwd.core_final.domain.FlightMission;
 import com.epam.jwd.core_final.domain.Spaceship;
 import com.epam.jwd.core_final.exception.InvalidStateException;
 import com.epam.jwd.core_final.exception.UnknownEntityException;
-import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-// todo
 public class NassaContext implements ApplicationContext {
 
     // no getters/setters for them
@@ -21,7 +19,6 @@ public class NassaContext implements ApplicationContext {
     private Collection<Spaceship> spaceships = new ArrayList<>();
 
     private Collection<FlightMission> missions = new ArrayList<>();
-
 
     private final static NassaContext INSTANCE = new NassaContext();
 
@@ -55,12 +52,12 @@ public class NassaContext implements ApplicationContext {
     @Override
     public void init() throws InvalidStateException {
         Strategy strategy;
+
         strategy = new SpaceshipStrategy();
         strategy.populate(spaceships);
 
         strategy = new CrewMemberStrategy();
         strategy.populate(crewMembers);
-        //throw new InvalidStateException();
     }
 
     public int getId() {

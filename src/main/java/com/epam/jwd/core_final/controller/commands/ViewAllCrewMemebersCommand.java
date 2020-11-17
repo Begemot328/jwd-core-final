@@ -9,12 +9,14 @@ import com.epam.jwd.core_final.service.impl.MissionServiceImpl;
 import com.epam.jwd.core_final.util.CollectionJSONWriter;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 public class ViewAllCrewMemebersCommand implements ICommand {
 
     private final String MESSAGE = "View all crewmembers";
     private final String EMPTY_MESSAGE = "List is empty";
+    private final String NEW_LINE = "\n";
 
     private Consumer<? super String> action;
 
@@ -32,9 +34,11 @@ public class ViewAllCrewMemebersCommand implements ICommand {
         CrewServiceImpl crewService = CrewServiceImpl.getInstance();
 
         if (!crewService.findAllCrewMembers().isEmpty()) {
+            AtomicInteger i = new AtomicInteger();
+
             crewService.findAllCrewMembers().stream()
-                    .map(member -> member.toString())
-                    .forEach(action);
+                    .map(member -> i.incrementAndGet() + NEW_LINE +member.toString())
+                    .forEach(action::accept);
         } else {
             action.accept(EMPTY_MESSAGE);
         }

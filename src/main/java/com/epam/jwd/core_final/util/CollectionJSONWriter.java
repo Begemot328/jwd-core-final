@@ -23,12 +23,7 @@ public class CollectionJSONWriter {
     private static final ApplicationProperties properties = ApplicationProperties.getInstance();
     private static final String FILENAME = "src/main/resources" + "/" + properties.getOutputRootDir() + "/" + "OBJECT" + ".json";
     private static final String OBJECT = "OBJECT";
-    private ApplicationContext context;
     private static String filename = FILENAME;
-
-    public void setContext(ApplicationContext context) {
-        this.context = context;
-    }
 
     public static void write(Collection<? super BaseEntity> collection) throws InvalidStateException {
 
