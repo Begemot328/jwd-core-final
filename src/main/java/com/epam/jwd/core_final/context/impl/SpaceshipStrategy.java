@@ -1,11 +1,11 @@
 package com.epam.jwd.core_final.context.impl;
 
-import com.epam.jwd.core_final.context.ApplicationContext;
 import com.epam.jwd.core_final.context.Strategy;
 import com.epam.jwd.core_final.domain.ApplicationProperties;
 import com.epam.jwd.core_final.domain.Role;
 import com.epam.jwd.core_final.domain.Spaceship;
-import com.epam.jwd.core_final.factory.impl.SpaceshipFactory;
+import com.epam.jwd.core_final.exception.InvalidStateException;
+import com.epam.jwd.core_final.domain.SpaceshipFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -54,7 +54,7 @@ public class SpaceshipStrategy implements Strategy<Spaceship> {
                 result.add(factory.create(array[0], Long.valueOf(array[1]), crew));
             }
         } catch (FileNotFoundException e) {
-            ApplicationContext.getLoggerInstance().error(e.getMessage());
+            throw new InvalidStateException(e.getMessage());
         }
     }
 }

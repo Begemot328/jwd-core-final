@@ -1,5 +1,6 @@
 package com.epam.jwd.core_final.controller.commands;
 
+import com.epam.jwd.core_final.context.ApplicationContext;
 import com.epam.jwd.core_final.controller.ICommand;
 import com.epam.jwd.core_final.exception.InvalidStateException;
 import com.epam.jwd.core_final.service.impl.MissionServiceImpl;
@@ -19,6 +20,7 @@ public class WriteSpaceshipsToJacksonCommand implements ICommand {
     @Override
     public void execute() throws InvalidStateException {
         SpaceShipServiceImpl missionService = SpaceShipServiceImpl.getInstance();
+
         if (!missionService.findAllSpaceships().isEmpty()) {
             CollectionJSONWriter.write((Collection)  missionService.findAllSpaceships());
         }

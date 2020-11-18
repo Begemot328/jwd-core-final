@@ -11,6 +11,8 @@ import com.epam.jwd.core_final.controller.commands.ViewCrewMembersByRoleCommand;
 import com.epam.jwd.core_final.controller.commands.WriteCrewMembersToJacksonCommand;
 import com.epam.jwd.core_final.controller.commands.WriteMissionsToJacksonCommand;
 import com.epam.jwd.core_final.controller.commands.WriteSpaceshipsToJacksonCommand;
+import com.epam.jwd.core_final.exception.InvalidStateException;
+import com.epam.jwd.core_final.exception.NoResourceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -98,18 +100,20 @@ public class Controller implements IController {
             }
             command = currentMenu.getCommand(commandCode);
             if (command == null) {
-                ApplicationContext.getLoggerInstance().error(NO_SUCH_COMMAND);
+                ApplicationContext.getLoggerInstance().warn(NO_SUCH_COMMAND);
                 System.out.println(NO_SUCH_COMMAND);
                 return;
             }
         }
         try {
             command.execute();
-        } catch (RuntimeException e) {
+        } catch (NoResourceException e) {
             System.out.println(e.getMessage());
             ApplicationContext.getLoggerInstance().warn(e.getMessage());
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            ApplicationContext.getLoggerInstance().error(e.getMessage());
         }
-
     }
 
     private void writeMenu(Menu menu) {
@@ -155,6 +159,7 @@ public class Controller implements IController {
                         return scanner.nextDouble();
                     } else {
                         System.out.println(WRONG_DATA_TYPE);
+                        ApplicationContext.getLoggerInstance().warn(WRONG_DATA_TYPE);
                         scanner.next();
                     }
                 case SHORT:
@@ -162,6 +167,7 @@ public class Controller implements IController {
                         return scanner.nextShort();
                     } else {
                         System.out.println(WRONG_DATA_TYPE);
+                        ApplicationContext.getLoggerInstance().warn(WRONG_DATA_TYPE);
                         scanner.next();
                     }
             }

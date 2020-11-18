@@ -5,7 +5,7 @@ import com.epam.jwd.core_final.context.impl.NassaContext;
 import com.epam.jwd.core_final.criteria.Criteria;
 import com.epam.jwd.core_final.domain.FlightMission;
 import com.epam.jwd.core_final.exception.ObjectCreationException;
-import com.epam.jwd.core_final.factory.impl.FlightMissionFactory;
+import com.epam.jwd.core_final.domain.FlightMissionFactory;
 import com.epam.jwd.core_final.service.MissionService;
 
 import java.util.Arrays;

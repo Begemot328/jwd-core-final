@@ -1,4 +1,4 @@
-package com.epam.jwd.core_final.factory.impl;
+package com.epam.jwd.core_final.domain;
 
 import com.epam.jwd.core_final.domain.CrewMember;
 import com.epam.jwd.core_final.domain.FlightMission;
@@ -7,7 +7,6 @@ import com.epam.jwd.core_final.domain.Spaceship;
 import com.epam.jwd.core_final.factory.EntityFactory;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public class FlightMissionFactory implements EntityFactory<FlightMission> {

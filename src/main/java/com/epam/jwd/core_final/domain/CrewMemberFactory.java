@@ -1,9 +1,8 @@
-package com.epam.jwd.core_final.factory.impl;
+package com.epam.jwd.core_final.domain;
 
 import com.epam.jwd.core_final.domain.CrewMember;
 import com.epam.jwd.core_final.domain.Rank;
 import com.epam.jwd.core_final.domain.Role;
-import com.epam.jwd.core_final.exception.FactoryException;
 import com.epam.jwd.core_final.factory.EntityFactory;
 
 // do the same for other entities

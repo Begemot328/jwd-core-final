@@ -3,11 +3,9 @@ package com.epam.jwd.core_final.service.impl;
 import com.epam.jwd.core_final.context.ApplicationContext;
 import com.epam.jwd.core_final.context.impl.NassaContext;
 import com.epam.jwd.core_final.criteria.Criteria;
-import com.epam.jwd.core_final.domain.CrewMember;
 import com.epam.jwd.core_final.domain.Spaceship;
 import com.epam.jwd.core_final.exception.ObjectCreationException;
-import com.epam.jwd.core_final.factory.impl.CrewMemberFactory;
-import com.epam.jwd.core_final.factory.impl.SpaceshipFactory;
+import com.epam.jwd.core_final.domain.SpaceshipFactory;
 import com.epam.jwd.core_final.service.SpaceshipService;
 
 import java.util.Arrays;

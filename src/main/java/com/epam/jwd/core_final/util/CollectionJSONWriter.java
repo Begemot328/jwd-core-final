@@ -43,7 +43,7 @@ public class CollectionJSONWriter {
         try {
             objectMapper.writeValue(new File(filename), collection);
         } catch (IOException e) {
-            ApplicationContext.getLoggerInstance().error(e);
+            ApplicationContext.getLoggerInstance().error(e.getMessage());
             throw new InvalidStateException(e.getMessage());
         }
     }

@@ -11,10 +11,10 @@ public class Spaceship extends AbstractBaseEntity {
     //todo
     private Map<Role, Short> crew;
     private long flightDistance;
-    private String name = "Spaceship";
+    private String name;
     private boolean isReadyForNextMissions = true;
 
-    public Spaceship(Map<Role, Short> crew, long flightDistance, String name) {
+    Spaceship(Map<Role, Short> crew, long flightDistance, String name) {
         this.name = name;
         this.crew = crew;
         this.flightDistance = flightDistance;
