@@ -4,17 +4,21 @@ import com.epam.jwd.core_final.criteria.Criteria;
 
 public class NoResourceException extends RuntimeException {
     private Criteria criteria;
+    private String message = new String();
 
     public NoResourceException(Criteria criteria) {
         super();
         this.criteria = criteria;
     }
 
+    public NoResourceException(String message, Criteria criteria) {
+        super(message);
+        this.criteria = criteria;
+        this.message = message;
+    }
+
     @Override
     public String getMessage() {
-        String message;
-        message = " Object by criteria " + criteria.toString() + " cannot be founded";
-
-        return message;
+        return  "Object by criteria " + criteria.toString() + " cannot be founded \n " + message;
     }
 }

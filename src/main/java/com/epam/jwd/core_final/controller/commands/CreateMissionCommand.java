@@ -22,6 +22,7 @@ import java.util.Optional;
 public class CreateMissionCommand implements ICommand {
     private static final String DESCRIPTION = "Create mission";
     private static final String MISSION_NAME = "Mission";
+    private static final String EXCEPTION_MESSAGE = "Mission cannot be created ";
     private static final String SPACE = " ";
 
     @Override
@@ -39,7 +40,7 @@ public class CreateMissionCommand implements ICommand {
                 SpaceshipCriteriaBuilder.newBuild().setReady(true).build();
         Spaceship ship = shipService.findAllSpaceshipsByCriteria(
                 spaceshipCriteria)
-                .stream().findAny().orElseThrow(() -> new NoResourceException(spaceshipCriteria));
+                .stream().findAny().orElseThrow(() -> new NoResourceException(EXCEPTION_MESSAGE, spaceshipCriteria));
 
         List<CrewMember> list = new ArrayList<>();
 
@@ -50,7 +51,7 @@ public class CreateMissionCommand implements ICommand {
                                 .setRole(Role.resolveRoleById(i)).setReady(true).build();
                 CrewMember member = crewService.findAllCrewMembersByCriteria(
                         crewMemberCriteria
-                ).stream().findAny().orElseThrow(() -> new NoResourceException(crewMemberCriteria));
+                ).stream().findAny().orElseThrow(() -> new NoResourceException(EXCEPTION_MESSAGE, crewMemberCriteria));
 
                 crewService.assignCrewMemberOnMission(member);
                 shipService.assignSpaceshipOnMission(ship);

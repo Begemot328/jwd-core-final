@@ -1,6 +1,7 @@
 package com.epam.jwd.core_final.domain;
 
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * crew {@link java.util.Map<Role, Short>}
@@ -47,5 +48,21 @@ public class Spaceship extends AbstractBaseEntity {
                 "name='" + name + '\'' +
                 ", flightDistance=" + flightDistance +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Spaceship spaceship = (Spaceship) o;
+        return flightDistance == spaceship.flightDistance &&
+                isReadyForNextMissions == spaceship.isReadyForNextMissions &&
+                Objects.equals(crew, spaceship.crew) &&
+                name.equals(spaceship.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(crew, flightDistance, name, isReadyForNextMissions);
     }
 }

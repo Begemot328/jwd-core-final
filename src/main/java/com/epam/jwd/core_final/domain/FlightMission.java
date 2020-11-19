@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Expected fields:
@@ -104,7 +105,26 @@ public class FlightMission extends AbstractBaseEntity {
                 '}';
     }
 
-    public String formatLocalDate(LocalDate date) {
+    private String formatLocalDate(LocalDate date) {
         return date.format( DateTimeFormatter.ofPattern(ApplicationProperties.getInstance().getDateFormat()));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FlightMission mission = (FlightMission) o;
+        return distance == mission.distance &&
+                name.equals(mission.name) &&
+                startDate.equals(mission.startDate) &&
+                endDate.equals(mission.endDate) &&
+                Objects.equals(assignedSpaceShift, mission.assignedSpaceShift) &&
+                Objects.equals(assignedCrew, mission.assignedCrew) &&
+                missionResult == mission.missionResult;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, startDate, endDate, distance, assignedSpaceShift, assignedCrew, missionResult);
     }
 }

@@ -1,5 +1,7 @@
 package com.epam.jwd.core_final.domain;
 
+import java.util.Objects;
+
 /**
  * Expected fields:
  * <p>
@@ -49,5 +51,21 @@ public class CrewMember extends AbstractBaseEntity {
                 ", rank=" + rank +
                 ", isReadyForNextMissions=" + isReadyForNextMissions +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CrewMember member = (CrewMember) o;
+        return isReadyForNextMissions == member.isReadyForNextMissions &&
+                name.equals(member.name) &&
+                role == member.role &&
+                rank == member.rank;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, role, rank, isReadyForNextMissions);
     }
 }
