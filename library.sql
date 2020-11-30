@@ -7,7 +7,8 @@ use library;
 create table book_status
 (
     id   tinyint primary key auto_increment,
-    name varchar(40) not null
+    name varchar(40) not null,
+    picture_link varchar(40)
 );
 
 insert book_status (id, name)
@@ -45,8 +46,11 @@ create table users
     last_name varchar(40) not null,
     login varchar(10) not null,
     password int(10) not null,
-    adress varchar(40)  not null
+    adress varchar(40)  not null,
+    photo_link varchar(40)
 );
+
+create index id_index on users (id);
 
 create table user_actions
 (
@@ -68,6 +72,8 @@ create table user_actions
 insert users(first_name, last_name, login, password, adress)
 values ('Yury', 'Zmushko', 'root', 'rootpaswordhash' #change to hash
 'unknown');
+
+
 
 create table books
 (
